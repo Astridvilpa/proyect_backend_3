@@ -14,10 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Appointment.init({
-    name: DataTypes.STRING
+    appointment_date: DataTypes.DATE,
+    user_id:DataTypes.INTEGER,
+    service_id: DataTypes.INTEGER,
+    artist_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Appointment',
+    tableName: 'appointments'
   });
   return Appointment;
 };
