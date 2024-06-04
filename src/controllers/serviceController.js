@@ -4,15 +4,30 @@ const { Service } = require("../models/index");
 serviceController.create = async (req, res) => {
   const { service_name, description } = req.body;
 
-  await Service.create({
-    service_name,
-    description,
-  });
+  try {
+    if (!service_name || !description) {
+      res.status(400).json({
+        success: true,
+        message: "Invalid Information",
+      });
+      return;
+    }
+    await Service.create({
+      service_name,
+      description,
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Services created successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Services created successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error creating service",
+      error: error.message,
+    });
+  }
 };
 
 serviceController.getAll = async (req, res) => {
