@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./database/db");
 const serviceController = require("./controllers/serviceController");
+const artistController = require("./controllers/artistController");
 
 dotenv.config();
 
@@ -19,15 +20,19 @@ app.get("/api/healthy", (req, res) => {
   });
 });
 
-//CRUD SERVICE
+//SERVICE ENDPOINTS
 app.post("/api/services", serviceController.create);
 app.get("/api/services", serviceController.getAll);
 app.get("/api/services/:id", serviceController.getById);
 app.put("/api/services/:id", serviceController.update);
 app.delete("/api/services/:id", serviceController.delete);
 
-
-
+//ARTIST ENDPOINTS
+app.post("/api/artists", artistController.create);
+app.get("/api/artists", artistController.getAll);
+app.get("/api/artists/:id", artistController.getById);
+app.put("/api/artists/:id", artistController.update);
+app.delete("/api/artists/:id", artistController.delete);
 
 
 sequelize
