@@ -31,55 +31,89 @@ serviceController.create = async (req, res) => {
 };
 
 serviceController.getAll = async (req, res) => {
-  const services = await Service.findAll();
-  res.status(200).json({
-    success: true,
-    message: "Services retreived successfully",
-    data: services,
-  });
+  try {
+    const services = await Service.findAll();
+    res.status(200).json({
+      success: true,
+      message: "Services retreived successfully",
+      data: services,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retreived service",
+      error: error.message,
+    });
+  }
 };
 
 serviceController.getById = async (req, res) => {
   const serviceId = req.params.id;
 
-  const service = await Service.findByPk(serviceId);
+  try {
+    const service = await Service.findByPk(serviceId);
 
-  res.status(200).json({
-    success: true,
-    message: "Services retreived successfully",
-    data: service,
-  });
+    if (!service) {
+      res.status(404).json({
+        success: true,
+        message: "Service not found",
+      });
+      return;
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retreived service",
+      error: error.message,
+    });
+  }
 };
 
 serviceController.update = async (req, res) => {
   const serviceId = req.params.id;
   const serviceData = req.body;
 
-  await Service.update(serviceData, {
-    where: {
-      id: serviceId,
-    },
-  });
+  try {
+    await Service.update(serviceData, {
+      where: {
+        id: serviceId,
+      },
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Services update successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Services update successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating service",
+      error: error.message,
+    });
+  }
 };
 
 serviceController.delete = async (req, res) => {
   const serviceId = req.params.id;
 
-  await Service.destroy({
-    where: {
-      id: serviceId,
-    },
-  });
+  try {
+    await Service.destroy({
+      where: {
+        id: serviceId,
+      },
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Services deleted successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Services deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting service",
+      error: error.message,
+    });
+  }
 };
 
 module.exports = serviceController;

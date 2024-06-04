@@ -32,57 +32,93 @@ artistController.create = async (req, res) => {
 };
 
 artistController.getAll = async (req, res) => {
-  const artists = await Artists.findAll();
-  res.status(200).json({
-    success: true,
-    message: "Artist retreived successfully",
-    data: artists,
-  });
+  try {
+    const artists = await Artists.findAll();
+    res.status(200).json({
+      success: true,
+      message: "Artist retreived successfully",
+      data: artists,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retreived artist",
+      error: error.message,
+    });
+  }
 };
 
 artistController.getById = async (req, res) => {
   const artistId = req.params.id;
 
-  const artists = await Artists.findByPk(artistId);
+  try {  
 
-  res.status(200).json({
+  const artists = await Artists.findByPk(artistId);
+  if(!artists) {  
+
+  res.status(404).json({
     success: true,
-    message: "Artists retreived successfully",
-    data: artists,
+    message: "Artists not found",
+    
   });
+return;
+}
+
+}catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retreived artist",
+      error: error.message,
+    });
+  }
+
 };
 
 artistController.update = async (req, res) => {
   const artistId = req.params.id;
   const artistData = req.body;
 
-  await Artists.update(artistData, {
-    where: {
-      id: artistId,
-    },
-  });
+  try {
+    await Artists.update(artistData, {
+      where: {
+        id: artistId,
+      },
+    });
 
-  res.status(200).json({
-    success: true,
-    message: "Artists update successfully",
-  });
+    res.status(200).json({
+      success: true,
+      message: "Artists update successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error updating artist",
+      error: error.message,
+    });
+  }
 };
 
 artistController.delete = async (req, res) => {
-    const artistId = req.params.id;
-  
+  const artistId = req.params.id;
+
+  try {
     await Artists.destroy({
       where: {
         id: artistId,
       },
     });
-  
+
     res.status(200).json({
       success: true,
       message: "Artists deleted successfully",
     });
-  };
-
-
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting artist",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = artistController;
