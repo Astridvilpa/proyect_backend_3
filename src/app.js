@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const sequelize = require("./database/db")
 dotenv.config();
 
 const app = express();
@@ -61,9 +62,17 @@ app.delete("/api/services/:id", async (req, res) => {
 
 
 
-
-
 //star the server
-app.listen(PORT, () => {
-  console.log(`server listening on port: ${PORT}`);
-});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Database authenticated");
+
+    //star the server
+    app.listen(PORT, () => {
+      console.log(`server listening on port: ${PORT}`);
+    });
+  })
+  .catch(() => {
+    console.error("Error authenticating database");
+  });
