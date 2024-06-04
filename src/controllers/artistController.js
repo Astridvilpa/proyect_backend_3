@@ -33,7 +33,9 @@ artistController.create = async (req, res) => {
 
 artistController.getAll = async (req, res) => {
   try {
-    const artists = await Artists.findAll();
+    const artists = await Artists.findAll({
+      attributes: { exclude: ['createdAt', 'updatedAt'] }
+    });
     res.status(200).json({
       success: true,
       message: "Artist retreived successfully",
@@ -52,7 +54,11 @@ artistController.getById = async (req, res) => {
   const artistId = req.params.id;
 
   try {
-    const artist = await Artists.findByPk(artistId);
+    const artist = await Artists.findByPk(artistId, {
+      attributes: { exclude: ['createdAt', 'updatedAt'] }
+    });
+
+   
     if (!artist) {
       res.status(404).json({
         success: true,
@@ -61,10 +67,9 @@ artistController.getById = async (req, res) => {
       return;
     }
     res.status(200).json({
-      success:true,
+      success: true,
       data: artist,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,

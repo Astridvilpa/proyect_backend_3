@@ -32,7 +32,9 @@ serviceController.create = async (req, res) => {
 
 serviceController.getAll = async (req, res) => {
   try {
-    const services = await Service.findAll();
+    const services = await Service.findAll({
+      attributes: { exclude: ['createdAt', 'updatedAt'] }
+    });
     res.status(200).json({
       success: true,
       message: "Services retreived successfully",
@@ -51,7 +53,9 @@ serviceController.getById = async (req, res) => {
   const serviceId = req.params.id;
 
   try {
-    const service = await Service.findByPk(serviceId);
+    const service = await Service.findByPk(serviceId, {
+      attributes: { exclude: ['createdAt', 'updatedAt'] }
+    });
 
     if (!service) {
       return res.status(404).json({
