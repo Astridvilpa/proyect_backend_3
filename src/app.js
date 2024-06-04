@@ -16,8 +16,54 @@ app.get("/api/healthy", (req, res) => {
   });
 });
 
+//CRUD SERVICE
+
+//create
+app.post("/api/services", async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Services created successfully",
+  });
+});
+
+//get all
+
+app.get("/api/services", async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Services retreived successfully",
+  });
+});
+
+// get by id
+app.get("/api/services/:id", async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Services retreived successfully",
+  });
+});
+
+// update
+app.put("/api/services/:id", async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Services update successfully",
+  });
+});
+
+// delete
+app.delete("/api/services/:id", async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Services deleted successfully",
+  });
+});
+
+
+
+
+
 //star the server
 app.listen(PORT, () => {
   console.log(`server listening on port: ${PORT}`);
 });
-
