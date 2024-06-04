@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./database/db");
-const { Service } = require("./models");
+const serviceController = require("./controllers/serviceController");
 
 dotenv.config();
 
@@ -20,78 +20,15 @@ app.get("/api/healthy", (req, res) => {
 });
 
 //CRUD SERVICE
+app.post("/api/services", serviceController.create);
+app.get("/api/services", serviceController.getAll);
+app.get("/api/services/:id", serviceController.getById);
+app.put("/api/services/:id", serviceController.update);
+app.delete("/api/services/:id", serviceController.delete);
 
-//create
-app.post("/api/services", async (req, res) => {
-  const { service_name, description } = req.body;
 
-  await Service.create({
-    service_name,
-    description,
-  });
 
-  res.status(200).json({
-    success: true,
-    message: "Services created successfully",
-  });
-});
 
-//get all
-
-app.get("/api/services", async (req, res) => {
-  const services = await Service.findAll();
-  res.status(200).json({
-    success: true,
-    message: "Services retreived successfully",
-    data: services,
-  });
-});
-
-// get by id
-app.get("/api/services/:id", async (req, res) => {
-  const serviceId = req.params.id;
-
-  const service = await Service.findByPk(serviceId);
-
-  res.status(200).json({
-    success: true,
-    message: "Services retreived successfully",
-    data: service,
-  });
-});
-
-// update
-app.put("/api/services/:id", async (req, res) => {
-  const serviceId = req.params.id;
-  const serviceData = req.body;
-
-  await Service.update(serviceData, {
-    where: {
-      id: serviceId,
-    },
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "Services update successfully",
-  });
-});
-
-// delete
-app.delete("/api/services/:id", async (req, res) => {
-  const serviceId = req.params.id;
-
-  await Service.destroy({
-    where: {
-      id: serviceId,
-    },
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "Services deleted successfully",
-  });
-});
 
 sequelize
   .authenticate()
