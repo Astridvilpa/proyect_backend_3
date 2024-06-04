@@ -1,6 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const sequelize = require("./database/db")
+const sequelize = require("./database/db");
+const { Service } = require("./models");
+
 dotenv.config();
 
 const app = express();
@@ -21,6 +23,13 @@ app.get("/api/healthy", (req, res) => {
 
 //create
 app.post("/api/services", async (req, res) => {
+  const { service_name, description } = req.body;
+
+  await Service.create({
+    service_name,
+    description,
+  });
+
   res.status(200).json({
     success: true,
     message: "Services created successfully",
@@ -30,22 +39,38 @@ app.post("/api/services", async (req, res) => {
 //get all
 
 app.get("/api/services", async (req, res) => {
+  const services = await Service.findAll();
   res.status(200).json({
     success: true,
     message: "Services retreived successfully",
+    data: services,
   });
 });
 
 // get by id
 app.get("/api/services/:id", async (req, res) => {
+  const serviceId = req.params.id;
+
+  const service = await Service.findByPk(serviceId);
+
   res.status(200).json({
     success: true,
     message: "Services retreived successfully",
+    data: service,
   });
 });
 
 // update
 app.put("/api/services/:id", async (req, res) => {
+  const serviceId = req.params.id;
+  const serviceData = req.body;
+
+  await Service.update(serviceData, {
+    where: {
+      id: serviceId,
+    },
+  });
+
   res.status(200).json({
     success: true,
     message: "Services update successfully",
@@ -54,15 +79,20 @@ app.put("/api/services/:id", async (req, res) => {
 
 // delete
 app.delete("/api/services/:id", async (req, res) => {
+  const serviceId = req.params.id;
+
+  await Service.destroy({
+    where: {
+      id: serviceId,
+    },
+  });
+
   res.status(200).json({
     success: true,
     message: "Services deleted successfully",
   });
 });
 
-
-
-//star the server
 sequelize
   .authenticate()
   .then(() => {
