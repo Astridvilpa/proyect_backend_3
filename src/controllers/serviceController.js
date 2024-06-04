@@ -54,12 +54,17 @@ serviceController.getById = async (req, res) => {
     const service = await Service.findByPk(serviceId);
 
     if (!service) {
-      res.status(404).json({
+      return res.status(404).json({
         success: true,
         message: "Service not found",
       });
       return;
     }
+    res.status(200).json({
+      success:true,
+      data: service,
+    });
+
   } catch (error) {
     res.status(500).json({
       success: false,

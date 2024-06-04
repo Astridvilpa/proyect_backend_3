@@ -51,27 +51,27 @@ artistController.getAll = async (req, res) => {
 artistController.getById = async (req, res) => {
   const artistId = req.params.id;
 
-  try {  
+  try {
+    const artist = await Artists.findByPk(artistId);
+    if (!artist) {
+      res.status(404).json({
+        success: true,
+        message: "Artists not found",
+      });
+      return;
+    }
+    res.status(200).json({
+      success:true,
+      data: artist,
+    });
 
-  const artists = await Artists.findByPk(artistId);
-  if(!artists) {  
-
-  res.status(404).json({
-    success: true,
-    message: "Artists not found",
-    
-  });
-return;
-}
-
-}catch (error) {
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: "Error retreived artist",
       error: error.message,
     });
   }
-
 };
 
 artistController.update = async (req, res) => {
