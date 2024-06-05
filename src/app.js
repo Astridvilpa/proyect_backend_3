@@ -1,9 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const sequelize = require("./database/db");
-const serviceController = require("./controllers/serviceController");
-const artistController = require("./controllers/artistController");
-
+const apiRoutes = require("./routes/index")
 dotenv.config();
 
 const app = express();
@@ -20,15 +18,7 @@ app.get("/api/healthy", (req, res) => {
   });
 });
 
-//SERVICE ENDPOINTS
-
-
-//ARTIST ENDPOINTS
-app.post("/api/artists", artistController.create);
-app.get("/api/artists", artistController.getAll);
-app.get("/api/artists/:id", artistController.getById);
-app.put("/api/artists/:id", artistController.update);
-app.delete("/api/artists/:id", artistController.delete);
+app.use("/api", apiRoutes);
 
 
 sequelize
