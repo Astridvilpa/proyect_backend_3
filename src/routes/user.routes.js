@@ -15,7 +15,7 @@ const crtl = require("../controllers/userController");
 router.get("/", crtl.getAll);
 router.get("/:id", crtl.getById);
 router.put("/:id", crtl.update);
-// router.delete("/:id", crtl.delete);
+router.delete("/:id", crtl.delete);
 // router.get('/:id/appointments', ctrol.getAppointmentsByUserId);
 
 

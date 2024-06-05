@@ -33,7 +33,7 @@ serviceController.create = async (req, res) => {
 serviceController.getAll = async (req, res) => {
   try {
     const services = await Service.findAll({
-      attributes: { exclude: ['createdAt', 'updatedAt'] }
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     res.status(200).json({
       success: true,
@@ -54,7 +54,7 @@ serviceController.getById = async (req, res) => {
 
   try {
     const service = await Service.findByPk(serviceId, {
-      attributes: { exclude: ['createdAt', 'updatedAt'] }
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
 
     if (!service) {
@@ -65,10 +65,9 @@ serviceController.getById = async (req, res) => {
       return;
     }
     res.status(200).json({
-      success:true,
+      success: true,
       data: service,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -106,11 +105,19 @@ serviceController.delete = async (req, res) => {
   const serviceId = req.params.id;
 
   try {
-    await Service.destroy({
+    const deleteResult = await Service.destroy({
       where: {
         id: serviceId,
       },
     });
+
+    if (deleteResult === 0) {
+      res.status(404).json({
+        success: true,
+        message: "Service not found",
+      });
+      return;
+    }
 
     res.status(200).json({
       success: true,

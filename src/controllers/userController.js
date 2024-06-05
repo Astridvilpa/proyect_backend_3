@@ -90,4 +90,35 @@ userController.update = async (req, res) => {
   }
 };
 
+userController.delete = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const deleteResult = await User.destroy({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (deleteResult === 0) {
+      res.status(404).json({
+        success: true,
+        message: "User not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting User",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = userController;

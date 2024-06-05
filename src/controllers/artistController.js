@@ -107,11 +107,19 @@ artistController.delete = async (req, res) => {
   const artistId = req.params.id;
 
   try {
-    await Artists.destroy({
+    const deleteResult = await Artists.destroy({
       where: {
         id: artistId,
       },
     });
+
+    if(deleteResult === 0) {
+      res.status(404).json({
+        success: true,
+        message: "Artist not found",
+      });
+      return;
+    }
 
     res.status(200).json({
       success: true,
