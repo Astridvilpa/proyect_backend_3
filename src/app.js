@@ -21,11 +21,7 @@ app.get("/api/healthy", (req, res) => {
 });
 
 //SERVICE ENDPOINTS
-app.post("/api/services", serviceController.create);
-app.get("/api/services", serviceController.getAll);
-app.get("/api/services/:id", serviceController.getById);
-app.put("/api/services/:id", serviceController.update);
-app.delete("/api/services/:id", serviceController.delete);
+
 
 //ARTIST ENDPOINTS
 app.post("/api/artists", artistController.create);
