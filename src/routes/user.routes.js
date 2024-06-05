@@ -5,18 +5,18 @@ const crtl = require("../controllers/userController");
 
 // User routes
 
-// router.get('/appointments', ctrol.getUserAppointments);
-// router.post('/appointments', ctrol.addAppointmentToUser);
-// router.delete('/appointments/:appointmentId', ctrol.removeAppointmentFromUser);
+router.get('/appointments', crtl.getUserAppointments);
+
 
 
 //protected routes
 
 router.get("/", crtl.getAll);
+router.get('/email', crtl.getUserByEmail);
 router.get("/:id", crtl.getById);
 router.put("/:id", crtl.update);
 router.delete("/:id", crtl.delete);
-// router.get('/:id/appointments', ctrol.getAppointmentsByUserId);
+router.get('/:id/appointments', crtl.getAppointmentsByUserId);
 
 
 module.exports = router;

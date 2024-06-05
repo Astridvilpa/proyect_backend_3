@@ -1,5 +1,6 @@
 const userController = {};
-const { User } = require("../models/index");
+const appointment = require("../models/appointment");
+const { User, Appointment, Service, Artists } = require("../models/index");
 const bcrypt = require("bcrypt");
 
 userController.getAll = async (req, res) => {
@@ -120,5 +121,181 @@ userController.delete = async (req, res) => {
     });
   }
 };
+
+userController.getAppointmentsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findByPk(userId, {
+      include: [
+        {
+          model: Appointment,
+          as: "appointments",
+          include: [
+            {
+              model: Service,
+              as: "service",
+            },
+          ],
+          include: [
+            {
+              model: Artists,
+              as: "artist",
+              attributes: {
+                exclude: ["createdAt", "updatedAt"],
+              },
+            },
+          ],
+
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "password",
+              "user_id",
+              "service_id",
+              "artist_id",
+            ],
+          },
+        },
+      ],
+    });
+
+    if (!user) {
+      res.status(404).json({
+        success: true,
+        message: "User not found",
+      });
+
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "user appointment retrieved successfully",
+      data: user.appointments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving users Appoinment",
+      error: error.message,
+    });
+  }
+};
+
+userController.getUserByEmail = async (req, res) => {
+  try {
+    const email = req.query.email;
+
+    if (!email) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email query parameter is required" });
+    }
+
+    const user = await User.findOne({
+      where: { email },
+      include: [
+        {
+          model: Appointment,
+          as: "appointments",
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "user_id",
+              "service_id",
+              "artist_id",
+            ],
+          },
+          include: [
+            {
+              model: Service,
+              as: "service",
+            },
+          ],
+          include: [
+            {
+              model: Artists,
+              as: "artist",
+              attributes: {
+                exclude: ["createdAt", "updatedAt"],
+              },
+            },
+          ],
+        },
+      ],
+      attributes: {
+        exclude: ["password", "createdAt", "updatedAt", "role_id"],
+      },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Email not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Email retrieved successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving Email",
+      error: error.message,
+    });
+  }
+};
+
+userController.getUserAppointments = async (req, res) => {
+  try {
+    const userId = 5;
+
+    
+    const appointments = await Appointment.findAll({
+      where: { user_id: userId }, 
+      include: [
+        {
+          model: Service,
+          as: "service",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "service_id","description"],
+            
+          },
+        },
+        {
+          model: Artists,
+          as: "artist",
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "service_id","artist_id","Bio", "Specialty" ],
+           
+          },
+        },
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "service_id", "artist_id"],
+        
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Appointments retrieved successfully",
+      data: appointments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving Appointments",
+      error: error.message,
+    });
+  }
+};
+
+
 
 module.exports = userController;
