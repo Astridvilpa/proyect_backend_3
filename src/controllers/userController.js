@@ -255,30 +255,33 @@ userController.getUserAppointments = async (req, res) => {
   try {
     const userId = req.tokenData.userId;
 
-    
     const appointments = await Appointment.findAll({
-      where: { user_id: userId }, 
+      where: { user_id: userId },
       include: [
         {
           model: Service,
           as: "service",
           attributes: {
-            exclude: ["createdAt", "updatedAt", "service_id","description"],
-            
+            exclude: ["createdAt", "updatedAt", "service_id", "description"],
           },
         },
         {
           model: Artists,
           as: "artist",
           attributes: {
-            exclude: ["createdAt", "updatedAt", "service_id","artist_id","Bio", "Specialty" ],
-           
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "service_id",
+              "artist_id",
+              "Bio",
+              "Specialty",
+            ],
           },
         },
       ],
       attributes: {
         exclude: ["createdAt", "updatedAt", "service_id", "artist_id"],
-        
       },
     });
 
@@ -296,6 +299,25 @@ userController.getUserAppointments = async (req, res) => {
   }
 };
 
+userController.getUserProfile = async (req, res) => {
+  const userId = req.tokenData.userId;
 
+  try {
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+    });
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error retreived user",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = userController;

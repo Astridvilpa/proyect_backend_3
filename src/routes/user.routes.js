@@ -6,7 +6,7 @@ const auth = require("../middlewares/auth");
 // User routes
 
 router.get("/appointments", auth, crtl.getUserAppointments);
-// router.get('/profile', auth, crtl.getUserProfile);
+router.get('/profile', auth, crtl.getUserProfile);
 // router.put('/profile', auth, crtl.updateUserProfile);
 
 //protected routes
