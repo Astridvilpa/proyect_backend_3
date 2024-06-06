@@ -6,7 +6,8 @@ const crtl = require("../controllers/userController");
 // User routes
 
 router.get('/appointments', crtl.getUserAppointments);
-
+// router.get('/profile', crtl.getUserProfile);
+// router.put('/profile', crtl.updateUserProfile);
 
 
 //protected routes
