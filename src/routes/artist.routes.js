@@ -3,11 +3,12 @@ const router = express.Router();
 const crtl = require("../controllers/artistController");
 
 
-
-
-router.post("/", crtl.create);
+// Public routes
 router.get("/", crtl.getAll);
 router.get("/:id", crtl.getById);
+
+// protected routes
+router.post("/", crtl.create);
 router.put("/:id", crtl.update);
 router.delete("/:id", crtl.delete);
 
