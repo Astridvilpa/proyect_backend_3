@@ -253,7 +253,7 @@ userController.getUserByEmail = async (req, res) => {
 
 userController.getUserAppointments = async (req, res) => {
   try {
-    const userId = 5;
+    const userId = req.tokenData.userId;
 
     
     const appointments = await Appointment.findAll({
