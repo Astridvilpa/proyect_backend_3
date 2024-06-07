@@ -2,8 +2,8 @@
 
 <image src="./img/tienda.jpeg" alt="Tienda" width="600" height="300" align="center" >
 
-
-## Tabla de contenidos:
+***
+## Tabla de contenidos
 
 1. Descripción 
 2. Tecnologías Utilizadas.
@@ -14,8 +14,59 @@
 7. Link.
 8. Autor.
 
-## Descripción :classical_building:
+***
+## Descripción
 El departamento de producto nos ha encomendado desarrollar el backend correspondiente al sistema de gestión de citas para un estudio de tatuajes.
 
-## Tecnologías Utilizadas:gear:
+***
+## Tecnologías Utilizadas
 
+- ORM: Sequelize.
+- Lenguaje: JavaScript.
+
+***
+## Estructura y diseño de base de datos
+
+<image src="./img/baseDatos.png" alt="Tattoo Studio">
+
+***
+
+### Instalaciones
+
+    - bcrypt
+    - cors
+    - dotenv
+    - express
+    - jsonwebtoken
+    - mysql2
+    - sequelize
+    - nodemon
+    - sequelize-cli
+  ***
+
+  ###  Enpoints:
+
+  <image src="./img/end1.png" alt="Tattoo Studio">
+ <image src="./img/end2.png" alt="Tattoo Studio">
+
+ ***
+
+ ### Funcionalidades Futuras
+
+ - Limite las opciones de citas
+ - Evitar la selección de días vencidos.
+ - Limite la selección de horas segun el horario del establecimiento.
+ - Realización de test.
+
+ ***
+
+ ### Link
+
+ https://github.com/Astridvilpa/proyect_backend_3.git
+
+
+ ****
+  
+  ###  Autor
+
+ [@Astridvilpa](https://github.com/Astridvilpa).
