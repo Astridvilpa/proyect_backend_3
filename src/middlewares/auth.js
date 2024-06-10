@@ -12,13 +12,10 @@ module.exports = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    req.tokenData= {
-        userId: decoded.userId,
-        userRoleName : decoded.userRoleName,
+    req.tokenData = {
+      userId: decoded.userId,
+      userRoleName: decoded.userRoleName,
     };
-
-
-
 
     next();
   } catch (error) {

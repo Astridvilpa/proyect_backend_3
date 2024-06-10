@@ -5,8 +5,8 @@ const auth = require("../middlewares/auth");
 const authorize = require("../middlewares/authorize");
 
 //public
-router.get("/",  auth, ctrl.getAll);
-router.get("/:id",  auth, ctrl.getById);
+router.get("/",  ctrl.getAll);
+router.get("/:id",  ctrl.getById);
 
 
 //protected routes
