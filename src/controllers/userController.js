@@ -1,6 +1,6 @@
 const userController = {};
 const appointment = require("../models/appointment");
-const { User, Appointment, Service, Artists } = require("../models/index");
+const { User, Appointment, Service, Artists, Role } = require("../models/index");
 const bcrypt = require("bcrypt");
 
 userController.getAll = async (req, res) => {
@@ -305,6 +305,11 @@ userController.getUserProfile = async (req, res) => {
   try {
     const user = await User.findByPk(userId, {
       attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+      include: {
+        model: Role,
+        as: 'role',
+        attributes: ['name']
+      }
     });
 
     res.status(200).json({
@@ -314,7 +319,7 @@ userController.getUserProfile = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error retreived user",
+      message: "Error retrieving user",
       error: error.message,
     });
   }
