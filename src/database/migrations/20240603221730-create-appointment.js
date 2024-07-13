@@ -23,7 +23,7 @@ module.exports = {
       },
       service_id: {
         type: Sequelize.INTEGER,
-        allowNull:false,
+        allowNull:true,
         references: {
           model:"services",
           key:"id",
@@ -31,7 +31,7 @@ module.exports = {
       },
       artist_id: {
         type: Sequelize.INTEGER,
-        allowNull:false,
+        allowNull:true,
         references: {
           model:"artists",
           key:"id",
